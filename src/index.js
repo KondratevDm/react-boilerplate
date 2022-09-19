@@ -1,6 +1,7 @@
 import Post from './Post'
 import json from './assets/json'
 import './styles/styles.css'
+import './styles/scss.scss'
 import ye from './assets/ye'
 
 console.log('JSONss:', json)
