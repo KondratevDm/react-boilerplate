@@ -21,4 +21,4 @@ function createAnalytics(): object {
     }
 }
 
-window['analytics'] = createAnalytics()
+// window['analytics'] = createAnalytics()

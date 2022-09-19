@@ -23,14 +23,29 @@ const cssLoaders = (extra) => {
     return loaders
 }
 
+const babelOptions = (...preset) => {
+    const options = {
+        presets: ['@babel/preset-env']
+    }
+
+    if (preset) {
+        options.presets.push(...preset)
+    }
+
+    console.log(options)
+
+    return options
+
+}
+
 console.log('isDev:', isDev)
 
 module.exports = {
     context: path.resolve(__dirname, 'src'),
     target: "web",
     entry: {
-        main: ['@babel/polyfill', './index.js'],
-        analytics: './analytics.ts'
+        main: ['@babel/polyfill', './index.tsx'],
+        analytics: './analytics.tsx'
     },
     output: {
         filename: fileName('js'),
@@ -38,9 +53,10 @@ module.exports = {
         clean: true
     },
     resolve: {
-        extensions: ['.js', '.json', '.png', '.jpg', '.svg'],
+        extensions: ['.js', '.json', '.png', '.jpg', '.svg', '.tsx', '.ts'],
         alias: {
-            '@src': path.resolve(__dirname, 'src')
+            '@src': path.resolve(__dirname, 'src'),
+            '@components': path.resolve(__dirname, 'src/components'),
         }
     },
     optimization: {
@@ -96,19 +112,31 @@ module.exports = {
                 exclude: /node_modules/,
                 use: {
                     loader: "babel-loader",
-                    options: {
-                        presets: ['@babel/preset-env']
-                    }
+                    options: babelOptions()
                 }
             },
             {
-                test: /\.m?ts$/,
+                test: /\.m?(ts)$/,
                 exclude: /node_modules/,
                 use: {
                     loader: "babel-loader",
-                    options: {
-                        presets: ['@babel/preset-env', "@babel/preset-typescript"]
-                    }
+                    options: babelOptions('@babel/preset-typescript')
+                }
+            },
+            {
+                test: /\.m?(tsx)$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: "babel-loader",
+                    options: babelOptions('@babel/preset-typescript', '@babel/preset-react')
+                }
+            },
+            {
+                test: /\.m?jsx$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: "babel-loader",
+                    options: babelOptions('@babel/preset-react')
                 }
             }
         ]
