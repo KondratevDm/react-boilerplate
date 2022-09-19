@@ -1,4 +1,6 @@
 @import "roboto.css";
+@import "~normalize.css";
+
 
 body {
     font-family: 'Roboto';
@@ -8,7 +10,8 @@ body {
 }
 
 .logo {
-    background-image: url("../assets/ye.jpg");
+    background-image: url("@src/assets/ye.jpg");
+    background-size: cover;
     width: 200px;
     height: 200px;
 }

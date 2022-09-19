@@ -1,7 +1,7 @@
 import Post from './Post'
-import json from './assets/json.json'
+import json from './assets/json'
 import './styles/styles.css'
-import ye from './assets/ye.jpg' 
+import ye from './assets/ye'
 
 console.log('JSONss:', json)
 const post = new Post('webpack title', ye)
