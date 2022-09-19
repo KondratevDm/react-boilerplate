@@ -30,7 +30,7 @@ module.exports = {
     target: "web",
     entry: {
         main: ['@babel/polyfill', './index.js'],
-        analytics: './analytics.js'
+        analytics: './analytics.ts'
     },
     output: {
         filename: fileName('js'),
@@ -98,6 +98,16 @@ module.exports = {
                     loader: "babel-loader",
                     options: {
                         presets: ['@babel/preset-env']
+                    }
+                }
+            },
+            {
+                test: /\.m?ts$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: "babel-loader",
+                    options: {
+                        presets: ['@babel/preset-env', "@babel/preset-typescript"]
                     }
                 }
             }
