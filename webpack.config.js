@@ -8,6 +8,20 @@ const isDev = process.env.NODE_ENV === 'development'
 const isProd = !isDev
 const fileName = (ext) => isDev ? `[name].${ext}` : `[name].[contenthash].${ext}`
 
+const cssLoaders = (extra) => {
+    const loaders = [{
+        loader: MiniCssExtractPlugin.loader,
+        options: {},
+    },
+        "css-loader",
+    ]
+
+    if (extra) {
+        loaders.push(extra)
+    }
+
+    return loaders
+}
 
 console.log('isDev:', isDev)
 
@@ -15,7 +29,7 @@ module.exports = {
     context: path.resolve(__dirname, 'src'),
     target: "web",
     entry: {
-        main: './index.js',
+        main: ['@babel/polyfill', './index.js'],
         analytics: './analytics.js'
     },
     output: {
@@ -63,20 +77,11 @@ module.exports = {
         rules: [
             {
                 test: /\.css$/,
-                use: [{
-                    loader: MiniCssExtractPlugin.loader,
-                    options: {},
-                }, "css-loader"],
+                use: cssLoaders()
             },
             {
                 test: /\.(scss)$/,
-                use: [{
-                    loader: MiniCssExtractPlugin.loader,
-                    options: {},
-                },
-                    "css-loader",
-                    'sass-loader'
-                ],
+                use: cssLoaders('sass-loader')
             },
             {
                 test: /\.(png|jpg|svg|gif)$/,
@@ -86,6 +91,16 @@ module.exports = {
                 test: /\.(woff|woff2|eot|ttf|otf)$/,
                 type: 'asset/resource',
             },
+            {
+                test: /\.m?js$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: "babel-loader",
+                    options: {
+                        presets: ['@babel/preset-env']
+                    }
+                }
+            }
         ]
     },
     watchOptions: {
