@@ -4,6 +4,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
 module.exports = {
     context: path.resolve(__dirname, 'src'),
+    target: "web",
     entry: {
         main: './index.js',
         analytics: './analytics.js'
@@ -18,6 +19,16 @@ module.exports = {
             '@src': path.resolve(__dirname, 'src')
         }
     },
+    devServer: {
+        static: {
+            directory: path.join(__dirname, 'src'),
+        },
+        compress: true,
+        port: 3000,
+        open: true,
+        hot: false
+    },
+
     plugins: [
         new HTMLWebpackPlugin({
             template: "./index.html"
