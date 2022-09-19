@@ -1,6 +1,13 @@
 const path = require('path')
 const HTMLWebpackPlugin = require('html-webpack-plugin')
-const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const TerserPlugin = require("terser-webpack-plugin");
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+
+const isDev = process.env.NODE_ENV === 'development'
+const isProd = !isDev
+
+console.log('isDev:', isDev)
 
 module.exports = {
     context: path.resolve(__dirname, 'src'),
@@ -11,13 +18,24 @@ module.exports = {
     },
     output: {
         filename: '[name].[contenthash].js',
-        path: path.resolve(__dirname, 'dist')
+        path: path.resolve(__dirname, 'dist'),
+        clean: true
     },
     resolve: {
         extensions: ['.js', '.json', '.png', '.jpg', '.svg'],
         alias: {
             '@src': path.resolve(__dirname, 'src')
         }
+    },
+    optimization: {
+        splitChunks: {
+            chunks: 'all'
+        },
+        minimize: isProd,
+        minimizer: [
+            new CssMinimizerPlugin(),
+            new TerserPlugin()
+        ]
     },
     devServer: {
         static: {
@@ -28,18 +46,29 @@ module.exports = {
         open: true,
         hot: false
     },
-
     plugins: [
         new HTMLWebpackPlugin({
-            template: "./index.html"
+            template: "./index.html",
+            minify: {
+                collapseWhitespace: isProd
+            }
         }),
-        new CleanWebpackPlugin()
+        new MiniCssExtractPlugin({
+            filename: '[name].[contenthash].css',
+        })
     ],
     module: {
         rules: [
             {
                 test: /\.css$/,
-                use: ['style-loader', 'css-loader']
+                // use: ['style-loader', 'css-loader']
+                use: [{
+                    loader: MiniCssExtractPlugin.loader,
+                    options: {
+                        // hmr: isDev,
+                        // reloadAll: true,
+                    },
+                }, "css-loader"],
             },
             {
                 test: /\.(png|jpg|svg|gif)$/,
