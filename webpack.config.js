@@ -25,18 +25,6 @@ const cssLoaders = (extra) => {
     return loaders
 }
 
-const babelOptions = (...preset) => {
-    const options = {
-        presets: ['@babel/preset-env']
-    }
-
-    if (preset) {
-        options.presets.push(...preset)
-    }
-
-    return options
-}
-
 module.exports = {
     context: path.resolve(__dirname),
     target: "web",

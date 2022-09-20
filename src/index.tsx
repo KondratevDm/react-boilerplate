@@ -11,7 +11,7 @@ const root = createRoot(document.getElementById("root") as HTMLElement);
 const App = () => {
     return (
         <>
-            <div>JSX is here!!</div>
+            <div>JSX is here!</div>
         </>
     )
 }
