@@ -1,4 +1,4 @@
 node_modules/
 dist/
 build/
-stats.jsom
+stats.json
