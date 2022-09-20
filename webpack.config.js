@@ -30,7 +30,6 @@ module.exports = {
     target: "web",
     entry: {
         main: ['@babel/polyfill', './src/index.tsx'],
-        analytics: './src/analytics.tsx'
     },
     output: {
         filename: fileName('js'),

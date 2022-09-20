@@ -5,13 +5,3 @@
 body {
     font-family: 'Roboto';
 }
-.container {
-    background-color: aquamarine;
-}
-
-.logo {
-    background-image: url("@src/assets/ye.jpg");
-    background-size: cover;
-    width: 200px;
-    height: 200px;
-}
