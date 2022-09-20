@@ -32,13 +32,9 @@ const babelOptions = (...preset) => {
         options.presets.push(...preset)
     }
 
-    console.log(options)
-
     return options
 
 }
-
-console.log('isDev:', isDev)
 
 module.exports = {
     context: path.resolve(__dirname, 'src'),
@@ -78,6 +74,7 @@ module.exports = {
         open: true,
         hot: false
     },
+    devtool: isDev ? 'source-map' : false,
     plugins: [
         new HTMLWebpackPlugin({
             template: "./index.html",
