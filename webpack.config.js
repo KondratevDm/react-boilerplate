@@ -3,6 +3,8 @@ const HTMLWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require("terser-webpack-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
+const ESLintPlugin = require("eslint-webpack-plugin")
 
 const isDev = process.env.NODE_ENV === 'development'
 const isProd = !isDev
@@ -33,15 +35,14 @@ const babelOptions = (...preset) => {
     }
 
     return options
-
 }
 
 module.exports = {
-    context: path.resolve(__dirname, 'src'),
+    context: path.resolve(__dirname),
     target: "web",
     entry: {
-        main: ['@babel/polyfill', './index.tsx'],
-        analytics: './analytics.tsx'
+        main: ['@babel/polyfill', './src/index.tsx'],
+        analytics: './src/analytics.tsx'
     },
     output: {
         filename: fileName('js'),
@@ -77,14 +78,22 @@ module.exports = {
     devtool: isDev ? 'source-map' : false,
     plugins: [
         new HTMLWebpackPlugin({
-            template: "./index.html",
+            template: "./src/index.html",
             minify: {
                 collapseWhitespace: isProd
             }
         }),
         new MiniCssExtractPlugin({
             filename: fileName('css'),
-        })
+        }),
+        new ForkTsCheckerWebpackPlugin({
+            async: false
+        }),
+        new ESLintPlugin({
+            extensions: ["js", "jsx", "ts", "tsx"],
+        }),
+
+
     ],
     module: {
         rules: [
@@ -105,37 +114,19 @@ module.exports = {
                 type: 'asset/resource',
             },
             {
-                test: /\.m?js$/,
+                test: /\.(ts|js)x?$/i,
                 exclude: /node_modules/,
                 use: {
                     loader: "babel-loader",
-                    options: babelOptions()
-                }
+                    options: {
+                        presets: [
+                            "@babel/preset-env",
+                            "@babel/preset-react",
+                            "@babel/preset-typescript",
+                        ],
+                    },
+                },
             },
-            {
-                test: /\.m?(ts)$/,
-                exclude: /node_modules/,
-                use: {
-                    loader: "babel-loader",
-                    options: babelOptions('@babel/preset-typescript')
-                }
-            },
-            {
-                test: /\.m?(tsx)$/,
-                exclude: /node_modules/,
-                use: {
-                    loader: "babel-loader",
-                    options: babelOptions('@babel/preset-typescript', '@babel/preset-react')
-                }
-            },
-            {
-                test: /\.m?jsx$/,
-                exclude: /node_modules/,
-                use: {
-                    loader: "babel-loader",
-                    options: babelOptions('@babel/preset-react')
-                }
-            }
         ]
     },
     watchOptions: {

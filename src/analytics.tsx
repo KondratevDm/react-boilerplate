@@ -1,6 +1,6 @@
 function createAnalytics(): object {
-    let counter: number = 0
-    let destroyed: boolean = false
+    let counter = 0
+    let destroyed = false
 
     const listener = (): number => counter++
 
@@ -20,5 +20,5 @@ function createAnalytics(): object {
         }
     }
 }
-
-// window['analytics'] = createAnalytics()
+export default createAnalytics
+// window['analytics']  = createAnalytics()
