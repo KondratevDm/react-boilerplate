@@ -1,5 +1,24 @@
 # React Typescript boilerplate
 
+This is an attempt at facilitating the starting of a new project with the
+following features:
+
+* Basic Technologies
+  * TypeScript
+  * ReactJS
+* Styling
+  * СSS importing
+  * Sass support
+  * Image importing
+* Performance
+  * JS Minification
+  * CSS Minification
+* Linting
+  * ESLint
+* Modern ES6 for using template strings, JSX syntax, object destructuring, arrow functions and more
+* Babel for old browser support
+* Hot Module Replacement for comfortable development
+
 ## Quick start
 
 1. Clone this repo using:
