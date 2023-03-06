@@ -13,6 +13,7 @@ following features:
 * Performance
   * JS Minification
   * CSS Minification
+  * Visualize size of webpack output files with an interactive zoomable treemap
 * Linting
   * ESLint
 * Modern ES6 for using template strings, JSX syntax, object destructuring, arrow functions and more
