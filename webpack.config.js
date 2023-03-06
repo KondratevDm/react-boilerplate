@@ -5,6 +5,7 @@ const TerserPlugin = require("terser-webpack-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
 const ESLintPlugin = require("eslint-webpack-plugin")
+const Dotenv = require('dotenv-webpack');
 
 const isDev = process.env.NODE_ENV === 'development'
 const isProd = !isDev
@@ -34,7 +35,8 @@ module.exports = {
     output: {
         filename: fileName('js'),
         path: path.resolve(__dirname, 'dist'),
-        clean: true
+        clean: true,
+        publicPath: '/'
     },
     resolve: {
         extensions: ['.js', '.json', '.png', '.jpg', '.svg', '.tsx', '.ts'],
@@ -60,7 +62,8 @@ module.exports = {
         compress: true,
         port: 3000,
         open: true,
-        hot: false
+        hot: false,
+        historyApiFallback: true,
     },
     devtool: isDev ? 'source-map' : false,
     plugins: [
@@ -79,8 +82,7 @@ module.exports = {
         new ESLintPlugin({
             extensions: ["js", "jsx", "ts", "tsx"],
         }),
-
-
+        new Dotenv()
     ],
     module: {
         rules: [
